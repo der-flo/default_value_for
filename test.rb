@@ -30,6 +30,8 @@ else
 	database_adapter = "sqlite3"
 end
 
+require 'logger'
+
 File.unlink('test.sqlite3') rescue nil
 ActiveRecord::Base.logger = Logger.new(STDERR)
 ActiveRecord::Base.logger.level = Logger::WARN
@@ -220,7 +222,7 @@ class DefaultValuePluginTest < Test::Unit::TestCase
 	def test_default_values
 		define_model_class do
 			default_values :type => "normal",
-			               :number => lambda { 10 + 5 }
+			               :number => lambda { |obj| 10 + 5 }
 		end
 		
 		object = TestClass.new
